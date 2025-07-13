@@ -1,0 +1,10 @@
+streamlit
+pandas
+# Optional - for interactive charts and maps
+plotly
+
+# Optional - for displaying dataframes in styled tables
+streamlit-aggrid
+
+# Optional - for org chart generation or layouts
+networkx
