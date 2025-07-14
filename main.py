@@ -1,110 +1,111 @@
 import streamlit as st
-import pandas as pd
 import base64
-from data.data_dict_new import location_metrics
+from data.data_dict_new import location_metrics  # Import the updated dummy data with images
 
-# -------------------------
-# Page Config
-# -------------------------
-st.set_page_config(
-    page_title="Game of Beans",
-    page_icon="☕",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
+st.set_page_config(initial_sidebar_state="collapsed")
 
-# -------------------------
-# Load and Encode Banner Image
-# -------------------------
-def load_image_base64(path):
-    with open(path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
+def load_image(image_path):
+    """Helper function to encode an image file to base64."""
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode('utf-8')
 
-banner_base64 = load_image_base64("assets/cover_light.png")
+def create_location_card(location_name):
+    """Function to create a card with metrics, an image, manager info, and a button to view the org chart for a location."""
+    metrics = location_metrics[location_name]  # Fetch metrics for the location
+    encoded_image = load_image(metrics['Image'])
 
-# -------------------------
-# ☕ Banner Display
-# -------------------------
-st.markdown(
-    f"""
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="data:image/png;base64,{banner_base64}" 
-             style="width: 100%; max-height: 80vh; object-fit: cover;" />
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+    st.markdown(
+        f"""
+        <div style="
+            background-color: #ffffff; 
+            border: 1px solid #ddd; 
+            border-radius: 10px; 
+            padding: 20px; 
+            margin: 15px;  
+            text-align: left; 
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+            width: 230px; 
+            height: auto; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;">
+            <img src="data:image/png;base64,{encoded_image}" style="width: 100%; border-radius: 10px; margin-bottom: 10px;">
+            <h3 style="color: #0077b6; font-size: 1.5rem; margin: 0; text-align: center; font-weight: bold;">
+                {location_name}
+            </h3>
+            <p style="color: #666; font-size: 1rem; margin-top: 5px; text-align: center;">
+                Location Manager: {metrics['Manager']}
+            </p>
+            <hr style="border: none; height: 1px; background-color: #ddd; margin: 10px 0;">
+            <p style="margin: 5px 0; font-size: 0.9rem; color: #555;"><strong>Headcount:</strong> {metrics['Headcount']}</p>
+            <p style="margin: 5px 0; font-size: 0.9rem; color: #555;"><strong>Turnover Rate:</strong> {metrics['Turnover Rate']}</p>
+            <p style="margin: 5px 0; font-size: 0.9rem; color: #555;"><strong>Total Revenue:</strong> {metrics['Total Revenue']}</p>
+            <p style="margin: 5px 0; font-size: 0.9rem; color: #555;"><strong>Planned Revenue:</strong> {metrics['Planned Revenue']}</p>
+            <p style="margin: 5px 0; font-size: 0.9rem; color: #555;"><strong>Revenue per Employee:</strong> {metrics['Revenue per Employee']}</p>
+            <button style="margin-top: 10px; padding: 5px 20px; font-size: 0.9rem; background-color: #0077b6; color: white; border: none; border-radius: 5px;">
+                    <a href="https://www.notion.so/Westeros-Org-Chart-22f43e065fed80beb499c7a339470e71?source=copy_link" style="text-decoration: none; color: white;" onclick="document.getElementById('org-chart-image').style.display='block';return false;">
+                        View Org Chart
+                    </a>
+            </button>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-# -------------------------
-# 🎯 Title + Subtitle
-# -------------------------
-st.markdown(
-    "<h1 style='text-align: center;'>Game of Beans</h1>",
-    unsafe_allow_html=True
-)
+    
 
-st.markdown(
-    """
-    <h4 style="text-align: center; font-weight: normal; color: gray;">
-        From the Night's Watch to Dorne, monitor how our 15 legendary outlets are brewing success.<br>
-        Use the sidebar to navigate through the map view, outlet scorecards, and detailed insights.
-    </h4>
-    """,
-    unsafe_allow_html=True
-)
 
-# -------------------------
-# 📊 Metrics Section
-# -------------------------
-df = pd.read_csv("data/outlets.csv", encoding="ISO-8859-1")
-df.columns = df.columns.str.strip()
 
-col1, col2, col3 = st.columns(3)
+def main():
 
-with col1:
-    st.metric("Total Outlets", len(df))
+    st.image(
+        "assets/cover_light.png",  # Replace with the path to your image
+        use_container_width=True  # Ensures the image spans the full width
+    )
 
-with col2:
-    st.metric("Total Weekly Revenue", f"${df['weekly_sales'].sum():,.0f}")
+    st.markdown(
+        "<h1 style='text-align: center;'>Westeros Coffee Shop Performance Overview</h2>",
+        unsafe_allow_html=True,
+    )
 
-with col3:
-    st.metric("Total Coffees Served", f"{df['coffees_served'].sum():,}")
+    # st.markdown(
+    #     """
+    #     <h2 style="font-size: 2 rem; font-weight: bold; margin-bottom: 10px; text-align: center;">
+    #     KNOW YOUR NUMBERS!<br>LEAD THE GAME!!
+    #     </h1>
+    #     """,
+    #     unsafe_allow_html=True
+    # )
 
-st.info("🔍 Use the sidebar to start exploring outlet performance.")
 
-# -------------------------
-# 🏰 Outlet Summary Cards
-# -------------------------
-def load_placeholder_base64(path):
-    with open(path, "rb") as img:
-        return base64.b64encode(img.read()).decode()
+    # Add a dropdown to select the time period
+    st.sidebar.title('Select a time period')
+    time_period = st.sidebar.selectbox(
+        "Select Time Period:",
+        ["YTD", "MTD", "Last Year"],
+        index=0  # Default to "YTD"
+    )
 
-placeholder_img = load_placeholder_base64("assets/cover.png")
+    # Display selected time period
+    st.markdown(
+        f"""
+        <div style="text-align: center; font-size: 1rem; margin-top: 10px;">
+            Showing <strong>{time_period}</strong> data!
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-st.markdown("### 🏰 Outlet Summary Cards")
-locations = list(location_metrics.keys())
+    # Get all location names
+    locations = list(location_metrics.keys())
 
-for i in range(0, len(locations), 3):
-    cols = st.columns(3)
-    for idx, col in enumerate(cols):
-        if i + idx < len(locations):
-            loc = locations[i + idx]
-            data = location_metrics[loc]
-            with col:
-                st.markdown(f"""
-                <div style="
-                    background-color: #fff;
-                    border: 1px solid #ddd;
-                    border-radius: 10px;
-                    padding: 20px;
-                    margin-bottom: 15px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-                    text-align: center;
-                    ">
-                    <img src="data:image/png;base64,{placeholder_img}" style="width: 100%; border-radius: 10px; height: 150px; object-fit: cover; margin-bottom: 10px;">
-                    <h3 style="color: #0077b6; margin-bottom: 5px;">{loc}</h3>
-                    <p style="margin: 0; color: #444;"><strong>Manager:</strong> {data['Manager']}</p>
-                    <p style="margin: 0;"><strong>Revenue:</strong> {data['Total Revenue']}</p>
-                    <p style="margin: 0;"><strong>Headcount:</strong> {data['Headcount']}</p>
-                </div>
-                """, unsafe_allow_html=True)
+    # Display cards
+    for i in range(0, len(locations), 3):
+        cols = st.columns(3)
+        for idx, col in enumerate(cols):
+            if i + idx < len(locations):
+                with col:
+                    create_location_card(locations[i + idx])
+
+if __name__ == "__main__":
+    main()
