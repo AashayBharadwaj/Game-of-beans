@@ -8,3 +8,6 @@ streamlit-aggrid
 
 # Optional - for org chart generation or layouts
 networkx
+
+openpyxl
+matplotlib

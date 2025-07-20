@@ -7,7 +7,7 @@ location_metrics = {
         "Headcount": 18,
         "Turnover Rate": "6%",
         "Total Revenue": "₵980,000",
-        "Planned Revenue": "₵1,050,000",
+        "Planned Revenue": "₵800,000",
         "Gross Profit": "₵372,000",
         "Net Profit": "₵210,000",
         "Coffees Served": "112,000",
@@ -25,7 +25,7 @@ location_metrics = {
         "Headcount": 25,
         "Turnover Rate": "15%",
         "Total Revenue": "₵1,250,000",
-        "Planned Revenue": "₵1,300,000",
+        "Planned Revenue": "₵750,000",
         "Gross Profit": "₵450,000",
         "Net Profit": "₵300,000",
         "Coffees Served": "152,000",
@@ -55,9 +55,9 @@ location_metrics = {
         "Training Hours": 150,
         "Machine Downtime": "3 hrs"
     },
-    "Oldtown": {
-        "Manager": "Samwell Tarly",
-        "Image": "images/samwell.png",
+    "Casterly Roast Café": {
+        "Manager": "Kingslayer",
+        "Image": "images/Jamie.png",
         "Headcount": 20,
         "Turnover Rate": "5%",
         "Total Revenue": "₵910,000",
@@ -73,9 +73,9 @@ location_metrics = {
         "Training Hours": 200,
         "Machine Downtime": "2 hrs"
     },
-    "Dreadfort": {
-        "Manager": "Ramsay Bolton",
-        "Image": "images/ramsay.png",
+    "The Imp’s Pourhouse": {
+        "Manager": "The Half Man",
+        "Image": "images/Tyrion.png",
         "Headcount": 10,
         "Turnover Rate": "25%",
         "Total Revenue": "₵620,000",
@@ -91,13 +91,13 @@ location_metrics = {
         "Training Hours": 80,
         "Machine Downtime": "12 hrs"
     },
-    "Meereen": {
-        "Manager": "Daenerys Targaryen",
-        "Image": "images/daenerys.png",
+    "The Ladder Café": {
+        "Manager": "Little Finger",
+        "Image": "images/Peter.png",
         "Headcount": 22,
         "Turnover Rate": "9%",
         "Total Revenue": "₵1,100,000",
-        "Planned Revenue": "₵1,200,000",
+        "Planned Revenue": "₵120,000",
         "Gross Profit": "₵420,000",
         "Net Profit": "₵260,000",
         "Coffees Served": "130,000",
