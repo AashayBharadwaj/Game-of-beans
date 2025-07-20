@@ -42,8 +42,9 @@ def main():
         st.markdown(
             f"""
             <div style="text-align: center; margin-top: 20px;">
-                <h3 style="font-size: 1.6rem; margin-bottom: 0.3rem;">📊 Consolidated Metric View</h3>
+                <h3 style="font-size: 1.6rem; margin-bottom: 0.3rem;">⚔️ Consolidated Metric View ⚔️</h3>
                 <div style="font-size: 1rem;">Showing <strong>{time_period}</strong> data!</div>
+                <div style="font-size: 0.9rem; margin-top: 0.3rem;">Use the dropdowns in the sidebar to explore different metrics and time periods.</div>
             </div>
             """,
             unsafe_allow_html=True
@@ -74,22 +75,34 @@ def main():
             plot_bgcolor="#ffffff",
             xaxis_showgrid=False,
             yaxis_showgrid=False,
-            xaxis_title=None,             # ❌ Hide x-axis label
-            yaxis_title=selected_metric,  # ✅ Keep y-axis label
+            xaxis_title=None,
+            yaxis_title=selected_metric,
             margin=dict(t=20),
-            xaxis_showline=False,         # ❌ Hide x-axis line
-            yaxis_showline=False          # ❌ Hide y-axis line
+            xaxis_showline=False,
+            yaxis_showline=False,
+            yaxis_type = "log"
+            
         )
 
         st.plotly_chart(fig, use_container_width=True)
 
-        # Add chart title below the chart
+        # Chart title below chart
         st.markdown(
             f"<div style='text-align:center; font-weight:500; font-size:1.1rem; margin-top:0.5rem;'>{selected_metric} by Location</div>",
             unsafe_allow_html=True
         )
+
     else:
         st.info(f"No valid data available for metric: {selected_metric}")
+
+    # --- TRANSITION TEXT BETWEEN CHART AND CARDS ---
+    st.markdown("""
+    <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;">
+    <h4 style="text-align: center; font-size: 1.3rem; margin-bottom: 0.5rem;">📍 Location-wise Details</h4>
+    <p style="text-align: center; font-size: 1rem;">
+        A breakdown of key performance indicators for each coffee shop location. Use this view to explore how each team is performing individually.
+    </p>
+    """, unsafe_allow_html=True)
 
     # --- KPI CARDS BELOW ---
     for i in range(0, len(locations), 3):
